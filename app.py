@@ -78,7 +78,7 @@ class Show(db.Model):
     venue = db.relationship('Venue', backref='show_venue')
     artist = db.relationship('Artist', backref='show_artist')
     
-    class Artist(db.Model):
+class Artist(db.Model):
     __tablename__ = 'artist'
 
     image_link = db.Column(db.String(500))

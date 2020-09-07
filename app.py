@@ -40,12 +40,12 @@ class Venue(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    city = db.Column(db.String(120))
+    city = db.Column(db.String(130))
     state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
+    address = db.Column(db.String(140))
     phone = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    image_link = db.Column(db.String(600))
+    facebook_link = db.Column(db.String(150))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
     migrate = Migrate(app, db)
@@ -56,11 +56,11 @@ class Artist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
-    genres = db.Column(db.String(120))
-    image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    state = db.Column(db.String(130))
+    phone = db.Column(db.String(140))
+    genres = db.Column(db.String(150))
+    image_link = db.Column(db.String(700))
+    facebook_link = db.Column(db.String(160))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
     migrate = Migrate(app, db)
@@ -81,7 +81,7 @@ class Show(db.Model):
 class Artist(db.Model):
     __tablename__ = 'artist'
 
-    image_link = db.Column(db.String(500))
+    image_link = db.Column(db.String(600))
     seeking_venue = db.Column(db.Boolean)
     seeking_description = db.Column(db.String)
     # tell the DB to calculate the value itself
@@ -122,7 +122,6 @@ def index():
 @app.route('/venues')
 def venues():
   # TODO: replace with real venues data.
-  def venues():
     areas = db.session.query(Venue.city, Venue.state).distinct()
     data = []
     for venue in areas:
@@ -342,11 +341,10 @@ def create_venue_submission():
     flash('Venue ' + request.form['name'] + ' was successfully listed!')
   return render_template('pages/home.html')
   # TODO: modify data to be the data object returned from db insertion
-  @app.route('/venues/<int:venue_id>/edit', methods=['POST'])
+@app.route('/venues/<int:venue_id>/edit', methods=['POST'])
 def edit_venue_submission(venue_id):
   error = False  
   venue = Venue.query.get(venue_id)
-
   try: 
     venue.name = request.form['name']
     venue.city = request.form['city']
@@ -376,7 +374,7 @@ def edit_venue_submission(venue_id):
   # on successful db insert, flash success
   flash('Venue ' + request.form['name'] + ' was successfully listed!')
   # TODO: on unsuccessful db insert, flash an error instead.
-                         except Exception as e:
+ except Exception as e:
         print(f'Error ==> {e}')
         flash('An error occurred. Venue ' +
               request.form['name'] + ' could not be listed.')
@@ -636,7 +634,6 @@ def edit_artist_submission(artist_id):
   # artist record with ID <artist_id> using the new attributes
  error = False  
   artist = Artist.query.get(artist_id)
-
   try: 
     artist.name = request.form['name']
     artist.city = request.form['city']
@@ -648,7 +645,6 @@ def edit_artist_submission(artist_id):
     artist.website = request.form['website']
     artist.seeking_venue = True if 'seeking_venue' in request.form else False 
     artist.seeking_description = request.form['seeking_description']
-
     db.session.commit()
   except: 
     error = True
@@ -690,7 +686,7 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
   # venue record with ID <venue_id> using the new attributes
-                         try:
+    try:
         form = VenueForm()
         venue = Venue.query.get(venue_id)
         venue.name = form.name.data
@@ -726,7 +722,7 @@ def create_artist_form():
 def create_artist_submission():
   # called upon submitting the new artist listing form
   # TODO: insert form data as a new Venue record in the db, instead
-                         error = False
+  error = False
   try: 
     name = request.form['name']
     city = request.form['city']
@@ -769,8 +765,7 @@ def shows():
   # displays list of shows at /shows
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
-                         shows_query = db.session.query(Show).join(Artist).join(Venue).all()
-
+ shows_query = db.session.query(Show).join(Artist).join(Venue).all()
   data = []
   for show in shows_query: 
     data.append({
